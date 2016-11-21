@@ -17,6 +17,7 @@ module.exports = {
         path: './dist',
         filename: '[name].[hash].js',
     },
+    devtool: 'source-map',
     module: {
         loaders: [{
             test: /\.component.ts$/,
