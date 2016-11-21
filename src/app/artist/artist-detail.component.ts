@@ -12,6 +12,5 @@ export class ArtistDetailComponent {
 
   constructor(private artistService: ArtistService) {
     this.artist = this.artistService.getArtist('630662');
-    console.log(this)
   }
 }

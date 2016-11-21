@@ -12,6 +12,5 @@ export class ArtistListComponent {
 
     constructor(artistService: ArtistService) {
         this.artists = artistService.getArtists();
-        console.log(this.artists)
     }
 }

@@ -3,7 +3,6 @@ export class ArtistService {
 
         return Object.keys(this.artists).map(id => {
             const artist = this.artists[id]
-         console.log(artist)
             return {
                 id: artist.id,
                 name: artist.name
@@ -11,7 +10,6 @@ export class ArtistService {
         });
     }
     getArtist(id) {
-        console.log(id)
         return this.artists[id];
     }
     private artists = {
