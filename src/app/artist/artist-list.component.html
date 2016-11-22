@@ -1,6 +1,6 @@
 <table class="table">
     <h1>Artist List</h1>
     <tr *ngFor="let artist of artists">
-        <td><a href="">{{artist.name}}</a></td>
+        <a (click)="artistSelect.emit(artist.id)">{{artist.name}}</a>
     </tr>
 </table>
