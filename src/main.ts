@@ -1,5 +1,4 @@
-import 'purecss/build/pure-min.css'
-import 'purecss/build/grids-min.css'
+import 'skeleton-css/css/skeleton.css'
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';

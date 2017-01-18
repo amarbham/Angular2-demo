@@ -31,10 +31,7 @@ module.exports = {
             loader: 'raw-loader'
         }, {
             test: /\.css$/,
-            loader: 'raw-loader'
-        }, {
-            test: /\.css$/,
-            loader: ExtractTextPlugin.extract('style', 'css-loader')
+            loaders: ['style-loader', 'css-loader']
         }]
     },
     resolve: {

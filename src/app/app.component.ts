@@ -3,11 +3,9 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   providers: [],
-  template: `
-      <div>This is the app root </div>
-    `
+  template: require('./app.template.html')
 })
 
 export class AppComponent {
-  
+    
 }
