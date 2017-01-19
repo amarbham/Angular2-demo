@@ -11,13 +11,13 @@ import { DataService } from '../common/data.service';
 export class UsersComponent implements OnInit {
   users: string;
   errorMessage: any;
-  usersUrl: string = 'https://jsonplaceholder.typicode.com/users/';
-  addUserUrl: string = 'http://jsonplaceholder.typicode.com/posts/';
 
   constructor(private dataService: DataService) { }
 
   addUser(data: User) {
-    this.dataService.post(this.addUserUrl, data )
+   const addUserUrl: string = 'http://jsonplaceholder.typicode.com/posts/';
+
+    this.dataService.post(addUserUrl, data )
       .subscribe(
       data => { return console.log(data) },
       error => this.errorMessage = `${error}: Could not add the user. Please try again.`
@@ -25,7 +25,8 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataService.get(this.usersUrl)
+    const usersUrl: string = 'https://jsonplaceholder.typicode.com/users/';
+    this.dataService.get(usersUrl)
       .subscribe(
       data => this.users = data,
       error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`
