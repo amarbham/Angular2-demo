@@ -1,1 +1,3 @@
-<p>{{title}}</p>
+{{users | json}}
+
+<p *ngIf="errorMessage" [innerHTML]="errorMessage"></p>
