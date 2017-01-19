@@ -16,11 +16,8 @@ export class UsersComponent implements OnInit {
 
   constructor(private dataService: DataService) { }
 
-  addUser(data: any) {
-
-    let newUser: User
-
-    this.dataService.post(this.addUserUrl, newUser )
+  addUser(data: User) {
+    this.dataService.post(this.addUserUrl, data )
       .subscribe(
       data => { return console.log(data) },
       error => this.errorMessage = `${error}: Could not add the user. Please try again.`
