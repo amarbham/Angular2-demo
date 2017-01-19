@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from './users.interface';
 import { DataService } from '../common/data.service';
 
 @Component({
@@ -13,9 +14,18 @@ export class UsersComponent implements OnInit {
   usersUrl: string = 'https://jsonplaceholder.typicode.com/users/';
   addUserUrl: string = 'http://jsonplaceholder.typicode.com/posts/';
 
-  newUser: { id: number, name: string }[] = []
-
   constructor(private dataService: DataService) { }
+
+  addUser(data: any) {
+
+    let newUser: User
+
+    this.dataService.post(this.addUserUrl, newUser )
+      .subscribe(
+      data => { return console.log(data) },
+      error => this.errorMessage = `${error}: Could not add the user. Please try again.`
+      )
+  }
 
   ngOnInit() {
     this.dataService.get(this.usersUrl)
@@ -24,10 +34,7 @@ export class UsersComponent implements OnInit {
       error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`
       )
 
-    this.dataService.post(this.addUserUrl, { id: 1, name: 'jamesh' })
-      .subscribe(
-      data => { return console.log(data) },
-      error => this.errorMessage = `${error}: Could not add the user. Please try again.`
-      )
+    this.addUser({  name: 'jamesh' })
+
   }
 }
