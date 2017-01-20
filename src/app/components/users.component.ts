@@ -24,7 +24,6 @@ export class UsersComponent implements OnInit {
   }
 
   addUser() {
-
     const data: User = { id: this.generateUserId(), name: 'user', email: 'user@internet.com', telephone_number: '07955369541' }
 
     this.dataService.post(this.usersUrl, data)
@@ -36,17 +35,24 @@ export class UsersComponent implements OnInit {
     if (this.users.length == 0) return;
 
     let last = this.users[this.users.length - 1].id;
-  
+
     this.dataService.delete(this.usersUrl + last)
       .then(() => this.users = this.users.filter((user: any) => user.id !== last))
       .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`)
   }
 
 
-  updateUser(id: number){
-    console.log(id)
-  }
+  updateUser(id: number) {
+    const updatedUser: User = {
+      id: 3,
+      name: "updated name",
+      email: "updated email",
+      telephone_number: "07955635844"
+    }
 
+    this.dataService.update(this.usersUrl + id, updatedUser)
+      .then(() => this.getUsers())
+  }
 
   private generateUserId(): number {
     let id: number = 1

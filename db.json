@@ -14,6 +14,12 @@
     },
     {
       "id": 3,
+      "name": "updated name",
+      "email": "updated email",
+      "telephone_number": "07955635844"
+    },
+    {
+      "id": 4,
       "name": "user",
       "email": "user@internet.com",
       "telephone_number": "07955369541"

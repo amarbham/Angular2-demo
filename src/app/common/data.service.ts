@@ -32,9 +32,12 @@ export class DataService {
             .catch(this.handleError);
     }
 
-    // update(id: number){
-    //     return this.http.put()
-    // }
+    update(url: string, data: any){
+        return this.http.put(url, data, { headers: this.headers })
+        .toPromise()
+        .then(() => null)
+        .catch(this.handleError)
+    }
 
     private extractData(res: Response) {
         return res.json();
