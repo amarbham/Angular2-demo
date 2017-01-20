@@ -11,12 +11,12 @@ import { DataService } from '../common/data.service';
 export class UsersComponent implements OnInit {
   users: any;
   errorMessage: any;
+  usersUrl: string = 'http://localhost:3000/users/';
 
   constructor(private dataService: DataService) { }
 
   getUsers() {
-    const usersUrl: string = 'http://localhost:3000/users';
-    this.dataService.get(usersUrl)
+    this.dataService.get(this.usersUrl)
       .subscribe(
       data => this.users = data,
       error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`
@@ -24,11 +24,10 @@ export class UsersComponent implements OnInit {
   }
 
   addUser() {
-    const addUserUrl: string = 'http://localhost:3000/users';
 
     const data: User = { id: this.generateUserId(), name: 'user', email: 'user@internet.com', telephone_number: '07955369541' }
 
-    this.dataService.post(addUserUrl, data)
+    this.dataService.post(this.usersUrl, data)
       .then(user => this.users.push(user))
       .catch(error => this.errorMessage = `${error}: Could not add the user. Please try again.`)
   }
@@ -37,11 +36,17 @@ export class UsersComponent implements OnInit {
     if (this.users.length == 0) return;
 
     let last = this.users[this.users.length - 1].id;
-
-    this.dataService.delete(last)
+  
+    this.dataService.delete(this.usersUrl + last)
       .then(() => this.users = this.users.filter((user: any) => user.id !== last))
       .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`)
   }
+
+
+  updateUser(id: number){
+    console.log(id)
+  }
+
 
   private generateUserId(): number {
     let id: number = 1

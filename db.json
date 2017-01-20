@@ -17,12 +17,6 @@
       "name": "user",
       "email": "user@internet.com",
       "telephone_number": "07955369541"
-    },
-    {
-      "id": 4,
-      "name": "user",
-      "email": "user@internet.com",
-      "telephone_number": "07955369541"
     }
   ]
 }
