@@ -2,6 +2,7 @@
 {{users | json}}
 </pre>
 <button class="button-primary" (click)="addUser()">Add user</button>
-<button class="button" (click)="deleteUser()">Delete user</button>
+<button class="button" (click)="deleteUser(4)">Delete user</button>
 <button class="button" (click)="updateUser(3)">Update User 3</button>
+<button class="button" (click)="deleteLast()">Delete last</button>
 <p *ngIf="errorMessage" [innerHTML]="errorMessage"></p>

@@ -27,11 +27,21 @@ export class UsersComponent implements OnInit {
     const data: User = { id: this.generateUserId(), name: 'user', email: 'user@internet.com', telephone_number: '07955369541' }
 
     this.dataService.post(this.usersUrl, data)
-      .then(user => this.users.push(user))
+      .then(user => this.getUsers())
       .catch(error => this.errorMessage = `${error}: Could not add the user. Please try again.`)
   }
 
-  deleteUser() {
+  deleteUser(id: number) {
+    if (this.users.length == 0) return;
+
+   // let last = this.users[this.users.length - 1].id;
+
+    this.dataService.delete(this.usersUrl + id)
+      .then(() => this.users = this.users.filter((user: any) => user.id !== id))
+      .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`)
+  }
+
+  deleteLast() {
     if (this.users.length == 0) return;
 
     let last = this.users[this.users.length - 1].id;
