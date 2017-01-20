@@ -9,30 +9,45 @@ import { DataService } from '../common/data.service';
 })
 
 export class UsersComponent implements OnInit {
-  users: string;
+  users: any;
   errorMessage: any;
+
 
   constructor(private dataService: DataService) { }
 
-  addUser(data: User) {
-   const addUserUrl: string = 'http://jsonplaceholder.typicode.com/posts/';
 
-    this.dataService.post(addUserUrl, data )
-      .subscribe(
-      data => { return console.log(data) },
-      error => this.errorMessage = `${error}: Could not add the user. Please try again.`
-      )
-  }
 
-  ngOnInit() {
-    const usersUrl: string = 'https://jsonplaceholder.typicode.com/users/';
+  getUsers() {
+    const usersUrl: string = 'http://localhost:3000/users';
     this.dataService.get(usersUrl)
       .subscribe(
       data => this.users = data,
       error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`
       )
+  }
 
-    this.addUser({  name: 'jamesh' })
+  addUser() {
+    const addUserUrl: string = 'http://localhost:3000/users';
 
+    const id = this.users[this.users.length - 1].id + 1;
+
+    const data: User = { id: id, name: 'user', email: 'user@internet.com', telephone_number: '07955369541' }
+
+    this.dataService.post(addUserUrl, data)
+      .then(user => this.users.push(user))
+      .catch(error => this.errorMessage = `${error}: Could not add the user. Please try again.`)
+  }
+
+  deleteUser() {
+
+    let last = this.users[this.users.length - 1].id
+
+    this.dataService.delete(last)
+      .then(() => this.users = this.users.filter((user: any) => user.id !== last))
+      .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`)
+  }
+
+  ngOnInit() {
+    this.getUsers()
   }
 }

@@ -6,6 +6,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class DataService {
 
+    headers = new Headers({ 'Content-Type': 'application/json' });
+
     constructor(private http: Http) { }
 
     get(url: string) {
@@ -15,11 +17,18 @@ export class DataService {
     }
 
     post(url: string, data: any) {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        let options = new RequestOptions({ headers: this.headers });
 
         return this.http.post(url, data, options)
-            .map(this.extractData)
+            .toPromise()
+            .then(this.extractData)
+            .catch(this.handleError);
+    }
+
+    delete(id: number) {
+        return this.http.delete('http://localhost:3000/users/' + id, { headers: this.headers })
+            .toPromise()
+            .then(() => null)
             .catch(this.handleError);
     }
 
