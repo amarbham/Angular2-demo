@@ -34,8 +34,6 @@ export class UsersComponent implements OnInit {
   deleteUser(id: number) {
     if (this.users.length == 0) return;
 
-   // let last = this.users[this.users.length - 1].id;
-
     this.dataService.delete(this.usersUrl + id)
       .then(() => this.users = this.users.filter((user: any) => user.id !== id))
       .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`)
