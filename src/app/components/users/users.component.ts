@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from './users.interface';
-import { DataService } from '../common/data.service';
+import { DataService } from '../../common/data.service';
 
 @Component({
   selector: 'users',
