@@ -3,7 +3,7 @@
 </pre>
 <h6>Current Selected User</h6>
 
-<counter [counterData]="users"  (counterChange)="myValueChange($event)"></counter>
+<counter [counterData]="users"  [currentSelected]="selectedUser" (counterChange)="changeUserRecord($event)"></counter>
 
 <button class="button-primary" (click)="addUser()">Add user</button>
 <button class="button" (click)="deleteUser(selectedUser.id)">Delete user</button>

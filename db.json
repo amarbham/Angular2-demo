@@ -1,6 +1,12 @@
 {
   "users": [
     {
+      "id": 1,
+      "name": "user",
+      "email": "user@internet.com",
+      "telephone_number": "07955369541"
+    },
+    {
       "id": 2,
       "name": "user",
       "email": "user@internet.com",

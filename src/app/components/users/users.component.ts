@@ -14,11 +14,6 @@ export class UsersComponent implements OnInit {
   usersUrl: string = 'http://localhost:3000/users/';
   selectedUser: User;
 
-
-  myValueChange(event: any) {
-    this.selectedUser = event.id
-  }
-
   constructor(private dataService: DataService) { }
 
   getUsers() {
@@ -68,6 +63,11 @@ export class UsersComponent implements OnInit {
     this.dataService.update(this.usersUrl + id, updatedUser)
       .then((user) => this.getUsers())
   }
+
+  changeUserRecord(event: any) {
+    this.selectedUser = this.users[event.value]
+  }
+
 
   private generateUserId(): number {
     let id: number = 1
