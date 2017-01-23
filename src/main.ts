@@ -1,4 +1,5 @@
 import 'skeleton-css/css/skeleton.css'
+import 'font-awesome/css/font-awesome'
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
