@@ -2,19 +2,11 @@
 {{users | json}}
 </pre>
 <h6>Current Selected User</h6>
-<button> 
-    <i class="fa fa-arrow-left"></i> 
-</button>
-<button>
-    <i class="fa fa-arrow-right" (click)="nextUser()"></i> 
-</button>
 
-<div *ngFor="let user of users">
-    <p>{{user | json}}</p>
-</div>
+<counter [counterData]="users"  (counterChange)="myValueChange($event)"></counter>
 
 <button class="button-primary" (click)="addUser()">Add user</button>
-<button class="button" (click)="deleteUser(4)">Delete user</button>
+<button class="button" (click)="deleteUser(selectedUser.id)">Delete user</button>
 <button class="button" (click)="updateUser(3)">Update User 3</button>
 <button class="button" (click)="deleteLast()">Delete last</button>
 <p *ngIf="errorMessage" [innerHTML]="errorMessage"></p>

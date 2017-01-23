@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { User } from './users.interface';
 import { DataService } from '../../common/data.service';
 
@@ -12,12 +12,21 @@ export class UsersComponent implements OnInit {
   users: any;
   errorMessage: any;
   usersUrl: string = 'http://localhost:3000/users/';
+  selectedUser: User;
+
+
+  myValueChange(event: any) {
+    this.selectedUser = event.id
+  }
 
   constructor(private dataService: DataService) { }
 
   getUsers() {
     this.dataService.get(this.usersUrl)
-      .then(data => this.users = data)
+      .then(data => {
+        this.users = data
+        this.selectedUser = data[0]
+      })
       .catch(error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`)
   }
 
@@ -57,7 +66,7 @@ export class UsersComponent implements OnInit {
     }
 
     this.dataService.update(this.usersUrl + id, updatedUser)
-      .then(() => this.getUsers())
+      .then((user) => this.getUsers())
   }
 
   private generateUserId(): number {
@@ -67,11 +76,6 @@ export class UsersComponent implements OnInit {
       id = this.users[this.users.length - 1].id + 1;
     }
     return id;
-  }
-
-  nextUser(){
-    let totalUsers: number = this.users.length;
-    console.log(totalUsers, 'total')
   }
 
   ngOnInit() {
