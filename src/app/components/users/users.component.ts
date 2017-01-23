@@ -17,10 +17,8 @@ export class UsersComponent implements OnInit {
 
   getUsers() {
     this.dataService.get(this.usersUrl)
-      .subscribe(
-      data => this.users = data,
-      error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`
-      )
+      .then(data => this.users = data)
+      .catch(error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`)
   }
 
   addUser() {
@@ -69,6 +67,11 @@ export class UsersComponent implements OnInit {
       id = this.users[this.users.length - 1].id + 1;
     }
     return id;
+  }
+
+  nextUser(){
+    let totalUsers: number = this.users.length;
+    console.log(totalUsers, 'total')
   }
 
   ngOnInit() {
