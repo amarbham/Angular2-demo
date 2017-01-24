@@ -4,6 +4,12 @@
 
 <h6>Current Selected User</h6>
 
+<form novalidate [formGroup]="form" autocompete="off">
+  <label>Name: <input type="text" formControlName="name"></label>
+  <label>Email: <input type="text" formControlName="email"></label>
+  <label>Telephone number: <input type="text" formControlName="telephone_number"></label>
+</form>
+
 {{selectedUser | json}}
 <br>
 <counter [counterData]="users"  [currentSelected]="selectedUser" (counterChange)="displayUserRecord($event)"></counter>
@@ -17,3 +23,8 @@
 <pre style="background-color: #eee">
 {{users | json}}
 </pre>
+
+<pre style="background-color: #eee">
+{{form?.value | json}}
+</pre>
+

@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs/Rx';
 import { User } from './users.interface';
 import { DataService } from '../../common/data.service';
 
@@ -13,17 +15,33 @@ export class UsersComponent implements OnInit {
   errorMessage: any;
   usersUrl: string = 'http://localhost:3000/users/';
   selectedUser: User;
+  form: FormGroup;
 
   @Output() addedUser = new EventEmitter();
 
+  constructor(private dataService: DataService) {
+    this.form = new FormGroup({
+      name: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required]),
+      telephone_number: new FormControl('', [Validators.required]),
+    });
 
-  constructor(private dataService: DataService) { }
+    this.form.valueChanges
+      .subscribe(formValue => console.log(formValue))
+  }
+  
+  // updateFormValues(){
+  //       this.form.value.name = this.selectedUser.name
+  //       this.form.value.email = this.selectedUser.email
+  //       this.form.value.telephone_number = this.selectedUser.telephone_number
+  // }
 
   getUsers(user?: any) {
     this.dataService.get(this.usersUrl)
       .then(data => {
         this.users = data
         this.selectedUser = user || data[0]
+      //  this.updateFormValues();
       })
       .catch(error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`)
   }

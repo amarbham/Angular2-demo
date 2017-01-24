@@ -1,22 +1,3 @@
 {
-  "users": [
-    {
-      "id": 5,
-      "name": "user",
-      "email": "user@internet.com",
-      "telephone_number": "07955369541"
-    },
-    {
-      "id": 6,
-      "name": "user",
-      "email": "user@internet.com",
-      "telephone_number": "07955369541"
-    },
-    {
-      "id": 7,
-      "name": "user",
-      "email": "user@internet.com",
-      "telephone_number": "07955369541"
-    }
-  ]
+  "users": []
 }
