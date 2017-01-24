@@ -58,8 +58,7 @@ export class UsersComponent implements OnInit {
   }
 
   displayUserRecord(event: any) {
-    this.selectedUser = event.selected
-    console.log(event)
+    this.selectedUser = event.selected;
   }
 
   private generateUserId(): number {
