@@ -11,6 +11,5 @@
 
 <button class="button-primary" (click)="addUser()">Add user</button>
 <button class="button" (click)="deleteUser(selectedUser)">Delete user</button>
-<button class="button" (click)="updateUser(3)">Update User 3</button>
-<button class="button" (click)="deleteLast()">Delete last</button>
+<button class="button" (click)="updateUser(selectedUser)">Update User 3</button>
 <p *ngIf="errorMessage" [innerHTML]="errorMessage"></p>

@@ -45,17 +45,6 @@ export class UsersComponent implements OnInit {
       .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`)
   }
 
-  deleteLast() {
-    if (this.users.length == 0) return;
-
-    let last = this.users[this.users.length - 1].id;
-
-    this.dataService.delete(this.usersUrl + last)
-      .then(() => this.getUsers()) // this.users = this.users.filter((user: any) => user.id !== last))
-      .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`)
-  }
-
-
   updateUser(user: User) {
     const updatedUser: User = {
       id: 3,
