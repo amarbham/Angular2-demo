@@ -14,13 +14,16 @@ export class UsersComponent implements OnInit {
   usersUrl: string = 'http://localhost:3000/users/';
   selectedUser: User;
 
+  @Output() addedUser = new EventEmitter();
+
+
   constructor(private dataService: DataService) { }
 
-  getUsers() {
+  getUsers(user?: any) {
     this.dataService.get(this.usersUrl)
       .then(data => {
         this.users = data
-        this.selectedUser = data[0]
+        this.selectedUser = user || data[0]
       })
       .catch(error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`)
   }
@@ -29,15 +32,16 @@ export class UsersComponent implements OnInit {
     const data: User = { id: this.generateUserId(), name: 'user', email: 'user@internet.com', telephone_number: '07955369541' }
 
     this.dataService.post(this.usersUrl, data)
-      .then(user => this.getUsers())
+      .then(user => this.getUsers(user))
       .catch(error => this.errorMessage = `${error}: Could not add the user. Please try again.`)
+
   }
 
-  deleteUser(id: number) {
+  deleteUser(user: User) {
     if (this.users.length == 0) return;
 
-    this.dataService.delete(this.usersUrl + id)
-      .then(() => this.users = this.users.filter((user: any) => user.id !== id))
+    this.dataService.delete(this.usersUrl + user.id)
+      .then(() => this.getUsers())  //return this.users = this.users.filter((user: any) => user.id !== id) })
       .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`)
   }
 
@@ -47,12 +51,12 @@ export class UsersComponent implements OnInit {
     let last = this.users[this.users.length - 1].id;
 
     this.dataService.delete(this.usersUrl + last)
-      .then(() => this.users = this.users.filter((user: any) => user.id !== last))
+      .then(() => this.getUsers()) // this.users = this.users.filter((user: any) => user.id !== last))
       .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`)
   }
 
 
-  updateUser(id: number) {
+  updateUser(user: User) {
     const updatedUser: User = {
       id: 3,
       name: "updated name",
@@ -60,14 +64,14 @@ export class UsersComponent implements OnInit {
       telephone_number: "07955635844"
     }
 
-    this.dataService.update(this.usersUrl + id, updatedUser)
-      .then((user) => this.getUsers())
+    this.dataService.update(this.usersUrl + updatedUser.id, updatedUser)
+      .then((user) => this.getUsers(updatedUser))
   }
 
-  changeUserRecord(event: any) {
-    this.selectedUser = this.users[event.value]
+  displayUserRecord(event: any) {
+    this.selectedUser = event.selected
+    console.log(event)
   }
-
 
   private generateUserId(): number {
     let id: number = 1

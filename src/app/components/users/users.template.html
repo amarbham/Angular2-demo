@@ -1,12 +1,16 @@
+
+<p *ngIf="users?.length === 0"> No users to display</p>
 <pre>
 {{users | json}}
 </pre>
+
+
 <h6>Current Selected User</h6>
 
-<counter [counterData]="users"  [currentSelected]="selectedUser" (counterChange)="changeUserRecord($event)"></counter>
+<counter [counterData]="users"  [currentSelected]="selectedUser" (counterChange)="displayUserRecord($event)"></counter>
 
 <button class="button-primary" (click)="addUser()">Add user</button>
-<button class="button" (click)="deleteUser(selectedUser.id)">Delete user</button>
+<button class="button" (click)="deleteUser(selectedUser)">Delete user</button>
 <button class="button" (click)="updateUser(3)">Update User 3</button>
 <button class="button" (click)="deleteLast()">Delete last</button>
 <p *ngIf="errorMessage" [innerHTML]="errorMessage"></p>

@@ -8,7 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 
 export class CounterComponent implements OnInit {
-    constructor() {  console.log(this) }
+    constructor() { }
 
     @Input() currentSelected: any;
     @Input() counterData: any;
@@ -26,7 +26,8 @@ export class CounterComponent implements OnInit {
     this.currentSelected = this.counterData[this.counterValue];
 
     this.counterChange.emit({
-      value: this.counterValue
+      value: this.counterValue,
+      selected: this.currentSelected
     })
   }
 
@@ -40,7 +41,8 @@ export class CounterComponent implements OnInit {
     this.currentSelected = this.counterData[this.counterValue]
 
     this.counterChange.emit({
-      value: this.counterValue
+      value: this.counterValue,
+      selected: this.currentSelected
     })
   }
 
