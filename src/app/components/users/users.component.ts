@@ -71,7 +71,7 @@ export class UsersComponent implements OnInit {
       .then((user) => this.getUsers(updatedUser))
   }
 
-  updateFormValues(data?: any): void{
+  updateFormValues(data?: any){
     if(this.users.length == 0) return this.form.reset();
 
     this.form.reset()
