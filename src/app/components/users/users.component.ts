@@ -26,24 +26,27 @@ export class UsersComponent implements OnInit {
       telephone_number: new FormControl('', [Validators.required]),
     });
 
-    this.form.valueChanges
-      .subscribe(formValue => console.log(formValue))
+    // this.form.valueChanges
+    //   .subscribe(formValue => console.log(formValue))
   }
+
   
   // updateFormValues(){
   //       this.form.value.name = this.selectedUser.name
   //       this.form.value.email = this.selectedUser.email
   //       this.form.value.telephone_number = this.selectedUser.telephone_number
+
   // }
+
 
   getUsers(user?: any) {
     this.dataService.get(this.usersUrl)
-      .then(data => {
+      .subscribe(
+        (data) => {
         this.users = data
         this.selectedUser = user || data[0]
-      //  this.updateFormValues();
-      })
-      .catch(error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`)
+      },
+        (error: any) => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`) 
   }
 
   addUser() {

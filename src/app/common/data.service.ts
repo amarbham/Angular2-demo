@@ -12,8 +12,7 @@ export class DataService {
 
     get(url: string) {
         return this.http.get(url)
-            .toPromise()
-            .then(this.extractData)
+            .map(this.extractData)
             .catch(this.handleError)
     }
 
