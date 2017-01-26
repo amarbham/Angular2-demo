@@ -31,20 +31,13 @@ export class UsersComponent implements OnInit {
   }
 
   
-  // updateFormValues(){
-  //       this.form.value.name = this.selectedUser.name
-  //       this.form.value.email = this.selectedUser.email
-  //       this.form.value.telephone_number = this.selectedUser.telephone_number
-
-  // }
-
-
   getUsers(user?: any) {
     this.dataService.get(this.usersUrl)
       .subscribe(
         (data) => {
-        this.users = data
-        this.selectedUser = user || data[0]
+        this.users = data;
+        this.selectedUser = user || data[0];
+        return this.updateFormValues(data);
       },
         (error: any) => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`) 
   }
@@ -78,11 +71,23 @@ export class UsersComponent implements OnInit {
       .then((user) => this.getUsers(updatedUser))
   }
 
-  displayUserRecord(event: any) {
-    this.selectedUser = event.selected;
+  updateFormValues(data?: any): void{
+    if(this.users.length == 0) return this.form.reset();
+
+    this.form.reset()
+    this.form.patchValue({
+      name: this.selectedUser.name,
+      email: this.selectedUser.email,
+      telephone_number: this.selectedUser.telephone_number
+    })
   }
 
-  private generateUserId(): number {
+  displayUserRecord(event: any): void {
+    this.selectedUser = event.selected;
+    this.updateFormValues();
+  }
+
+  generateUserId(): number {
     let id: number = 1
 
     if (this.users.length !== 0) {
