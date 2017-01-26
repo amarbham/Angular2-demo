@@ -75,7 +75,7 @@ export class UsersComponent implements OnInit {
     if(this.users.length == 0) return this.form.reset();
 
     this.form.reset()
-    this.form.patchValue({
+    this.form.setValue({
       name: this.selectedUser.name,
       email: this.selectedUser.email,
       telephone_number: this.selectedUser.telephone_number
