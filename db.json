@@ -1,28 +1,16 @@
 {
   "users": [
     {
-      "id": 2,
-      "name": "John Willms",
-      "email": "Birdie66@hotmail.com",
-      "telephone_number": "627.902.7842 x34053"
-    },
-    {
       "id": 4,
-      "name": "updated",
-      "email": "Maida76@gmail.com",
-      "telephone_number": "897-334-5635 x36234"
+      "name": "Raoul Parker",
+      "email": "Kayla43@gmail.com",
+      "telephone_number": "(483) 874-7530"
     },
     {
-      "id": 5,
-      "name": "Duane Connelly",
-      "email": "Blanca8@hotmail.com",
-      "telephone_number": "(153) 323-4900"
-    },
-    {
-      "id": 6,
-      "name": "updated",
-      "email": "Giuseppe83@gmail.com",
-      "telephone_number": "1-692-174-2552"
+      "id": 8,
+      "name": "Vada Daniel",
+      "email": "Aurelia_Pollich18@hotmail.com",
+      "telephone_number": "(940) 917-8191"
     }
   ]
 }

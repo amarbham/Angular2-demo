@@ -27,18 +27,16 @@ export class UsersComponent implements OnInit {
       email: new FormControl('', [Validators.required]),
       telephone_number: new FormControl('', [Validators.required]),
     });
-
-    // this.form.valueChanges
-    //   .subscribe(formValue => console.log(formValue))
   }
 
   // To do: It should trigger previous or next depending on whether a record has been added or deleted.
 
   getUsers(user?: any) {
     this.dataService.get(this.usersUrl)
-      .subscribe(
-      (data) => this.users = data,
-      (error: any) => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`)
+      .toPromise()
+      .then(data => this.users = data)
+      .then((users) => this.selectedUser = users[0])
+      //(error: any) => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`)
   }
 
   addUser() {
@@ -115,9 +113,9 @@ export class UsersComponent implements OnInit {
       })
   }
 
-  displayUserRecord(event: any): void {
+  displayUserRecord(event?: any): void {
 
-    this.selectedUser = event.selected;
+    this.selectedUser = event.selected
 
     if (this.users.length == 0) return this.form.reset();
 
