@@ -36,7 +36,7 @@ export class UsersComponent implements OnInit {
       .toPromise()
       .then(data => this.users = data)
       .then((users) => this.displayUserRecord(null, users[0]))
-      //(error: any) => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`)
+      .catch((error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`))
   }
 
   addUser() {
@@ -77,17 +77,7 @@ export class UsersComponent implements OnInit {
         return this.users = this.users.filter((user: any) => user.id !== id
         )
       })
-      .then(data => {
-        if(data.length == 0) {
-          this.form.reset()
-          this.selectedUser.id = null;
-          this.selectedUser.name = null;
-          this.selectedUser.email = null;
-          this.selectedUser.telephone_number = null;
-        }
-        //  this.selectedUser = data[data.length - 1]
-        // return this.updateFormValues(this.selectedUser)
-      })
+      .then(data =>  this.displayUserRecord())
       .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`)
   }
 
@@ -115,10 +105,16 @@ export class UsersComponent implements OnInit {
 
   displayUserRecord(event?: any, user?: User): void {
     
-    if (this.users.length == 0) return this.form.reset();
-
     if (event)  {  this.selectedUser = event.selected };
     if (user)   {  this.selectedUser = user };
+
+    if (this.users.length == 0) {
+      this.form.reset()
+
+      for (let x in this.selectedUser){
+        this.selectedUser[x] = null
+      }
+     }
 
     this.form.reset()
     this.form.setValue({
