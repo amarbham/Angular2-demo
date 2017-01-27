@@ -56,8 +56,8 @@ export class UsersComponent implements OnInit {
         return user;
       })
       .then(user => {
-        this.selectedUser = user;
-        return this.updateFormValues(this.selectedUser)
+      //  this.selectedUser = user;
+      //  return this.updateFormValues(this.selectedUser)
       })
       .catch(error => this.errorMessage = `${error}: Could not add the user. Please try again.`)
 
@@ -75,8 +75,8 @@ export class UsersComponent implements OnInit {
         )
       })
       .then(data => {
-        this.selectedUser = data[data.length - 1]
-        return this.updateFormValues(this.selectedUser)
+      //  this.selectedUser = data[data.length - 1]
+       // return this.updateFormValues(this.selectedUser)
       })
       .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`)
   }
@@ -96,23 +96,33 @@ export class UsersComponent implements OnInit {
       })
       .then((user) => {
         console.log(user)
-        return this.updateFormValues(user)
+    //    return this.updateFormValues(user)
       })
   }
 
-  updateFormValues(user?: User) {
+  // updateFormValues(user?: User) {
+  //   if (this.users.length == 0) return this.form.reset();
+
+  //   this.form.reset()
+  //   this.form.setValue({
+  //     name: user.name,
+  //     email: user.email,
+  //     telephone_number: user.telephone_number
+  //   })
+  // }
+
+  displayUserRecord(event: any): void {
+    this.selectedUser = event.selected;
+
     if (this.users.length == 0) return this.form.reset();
 
     this.form.reset()
     this.form.setValue({
-      name: user.name,
-      email: user.email,
-      telephone_number: user.telephone_number
+      name: this.selectedUser.name,
+      email: this.selectedUser.email,
+      telephone_number: this.selectedUser.telephone_number
     })
-  }
 
-  displayUserRecord(event: any): void {
-    this.selectedUser = event.selected;
   }
 
   generateUserId(): number {
