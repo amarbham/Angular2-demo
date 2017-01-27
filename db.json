@@ -1,16 +1,16 @@
 {
   "users": [
     {
-      "id": 4,
-      "name": "Raoul Parker",
-      "email": "Kayla43@gmail.com",
-      "telephone_number": "(483) 874-7530"
+      "id": 1,
+      "name": "Mr. Erica Nicolas",
+      "email": "Anne_Smith@gmail.com",
+      "telephone_number": "625.843.7193 x3913"
     },
     {
-      "id": 8,
-      "name": "Vada Daniel",
-      "email": "Aurelia_Pollich18@hotmail.com",
-      "telephone_number": "(940) 917-8191"
+      "id": 2,
+      "name": "Lolita Keebler",
+      "email": "Jacklyn.Jacobson@gmail.com",
+      "telephone_number": "297.540.9440 x9302"
     }
   ]
 }

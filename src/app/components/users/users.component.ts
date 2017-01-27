@@ -35,7 +35,7 @@ export class UsersComponent implements OnInit {
     this.dataService.get(this.usersUrl)
       .toPromise()
       .then(data => this.users = data)
-      .then((users) => this.selectedUser = users[0])
+      .then((users) => this.displayUserRecord(null, users[0]))
       //(error: any) => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`)
   }
 
@@ -113,11 +113,12 @@ export class UsersComponent implements OnInit {
       })
   }
 
-  displayUserRecord(event?: any): void {
-
-    this.selectedUser = event.selected
-
+  displayUserRecord(event?: any, user?: User): void {
+    
     if (this.users.length == 0) return this.form.reset();
+
+    if (event)  {  this.selectedUser = event.selected };
+    if (user)   {  this.selectedUser = user };
 
     this.form.reset()
     this.form.setValue({
