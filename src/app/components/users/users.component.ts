@@ -32,7 +32,7 @@ export class UsersComponent implements OnInit {
     //   .subscribe(formValue => console.log(formValue))
   }
 
-  // move the selected user on onAdd and onDelete
+  // To do: It should trigger previous or next depending on whether a record has been added or deleted.
 
   getUsers(user?: any) {
     this.dataService.get(this.usersUrl)
@@ -48,11 +48,11 @@ export class UsersComponent implements OnInit {
       email: faker.internet.email(),
       telephone_number: faker.phone.phoneNumber()
     }
-     // To replace with actual users input
-     /*  id: this.selectedUser.id,
-         name: this.form.value.name,
-         email: this.form.value.email,
-         telephone_number: this.form.value.telephone_number */
+    // To replace with actual users input
+    /*  id: this.selectedUser.id,
+        name: this.form.value.name,
+        email: this.form.value.email,
+        telephone_number: this.form.value.telephone_number */
 
     this.dataService.post(this.usersUrl, data)
       .toPromise()
@@ -69,7 +69,7 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(user: User) {
-    if (this.users.length == 0) return;
+    if (this.users.length == 0) return 
 
     const id = user.id;
 
@@ -80,6 +80,13 @@ export class UsersComponent implements OnInit {
         )
       })
       .then(data => {
+        if(data.length == 0) {
+          this.form.reset()
+          this.selectedUser.id = null;
+          this.selectedUser.name = null;
+          this.selectedUser.email = null;
+          this.selectedUser.telephone_number = null;
+        }
         //  this.selectedUser = data[data.length - 1]
         // return this.updateFormValues(this.selectedUser)
       })
@@ -106,25 +113,10 @@ export class UsersComponent implements OnInit {
           return user;
         })
       })
-    //  .then((user) => {
-    //    console.log(user)
-    //    return this.updateFormValues(user)
-    //   })
   }
 
-  // updateFormValues(user?: User) {
-  //   if (this.users.length == 0) return this.form.reset();
-
-  //   this.form.reset()
-  //   this.form.setValue({
-  //     name: user.name,
-  //     email: user.email,
-  //     telephone_number: user.telephone_number
-  //   })
-  // }
-
   displayUserRecord(event: any): void {
-    console.log(event.selected)
+
     this.selectedUser = event.selected;
 
     if (this.users.length == 0) return this.form.reset();
