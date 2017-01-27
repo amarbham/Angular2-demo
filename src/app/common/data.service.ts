@@ -20,22 +20,19 @@ export class DataService {
         let options = new RequestOptions({ headers: this.headers });
 
         return this.http.post(url, data, options)
-            .toPromise()
-            .then(this.extractData)
+            .map(this.extractData)
             .catch(this.handleError);
     }
 
     delete(url: string) {
         return this.http.delete(url, { headers: this.headers })
-            .toPromise()
-            .then(() => null)
+            .map(this.extractData)
             .catch(this.handleError);
     }
 
     update(url: string, data: any){
         return this.http.put(url, data, { headers: this.headers })
-        .toPromise()
-        .then(() => null)
+        .map(this.extractData)
         .catch(this.handleError)
     }
 

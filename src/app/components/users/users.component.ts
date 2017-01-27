@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Rx';
 import { User } from './users.interface';
 import { DataService } from '../../common/data.service';
 
+var faker = require('faker');
+
 @Component({
   selector: 'users',
   providers: [DataService],
@@ -30,23 +32,33 @@ export class UsersComponent implements OnInit {
     //   .subscribe(formValue => console.log(formValue))
   }
 
-  
+  // move the selected user on onAdd and onDelete
+
   getUsers(user?: any) {
     this.dataService.get(this.usersUrl)
       .subscribe(
-        (data) => {
-        this.users = data;
-        this.selectedUser = user || data[0];
-        return this.updateFormValues(data);
-      },
-        (error: any) => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`) 
+      (data) => this.users = data,
+      (error: any) => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`)
   }
 
   addUser() {
-    const data: User = { id: this.generateUserId(), name: 'user', email: 'user@internet.com', telephone_number: '07955369541' }
+    const data: User = { 
+      id: this.generateUserId(), 
+      name: faker.name.findName(), 
+      email: faker.internet.email(),
+      telephone_number: faker.phone.phoneNumber()
+     }
 
     this.dataService.post(this.usersUrl, data)
-      .then(user => this.getUsers(user))
+      .toPromise()
+      .then(user => {
+        this.users.push(user)
+        return user;
+      })
+      .then(user => {
+        this.selectedUser = user;
+        return this.updateFormValues(this.selectedUser)
+      })
       .catch(error => this.errorMessage = `${error}: Could not add the user. Please try again.`)
 
   }
@@ -54,8 +66,18 @@ export class UsersComponent implements OnInit {
   deleteUser(user: User) {
     if (this.users.length == 0) return;
 
-    this.dataService.delete(this.usersUrl + user.id)
-      .then(() => this.getUsers())  //return this.users = this.users.filter((user: any) => user.id !== id) })
+    const id = user.id;
+
+    this.dataService.delete(this.usersUrl + id)
+      .toPromise()
+      .then(() => {
+        return this.users = this.users.filter((user: any) => user.id !== id
+        )
+      })
+      .then(data => {
+        this.selectedUser = data[data.length - 1]
+        return this.updateFormValues(this.selectedUser)
+      })
       .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`)
   }
 
@@ -68,23 +90,29 @@ export class UsersComponent implements OnInit {
     }
 
     this.dataService.update(this.usersUrl + updatedUser.id, updatedUser)
-      .then((user) => this.getUsers(updatedUser))
+      .toPromise()
+      .then((user) => {
+        return this.selectedUser = this.users.find((x: any) => x.id == updatedUser.id)
+      })
+      .then((user) => {
+        console.log(user)
+        return this.updateFormValues(user)
+      })
   }
 
-  updateFormValues(data?: any){
-    if(this.users.length == 0) return this.form.reset();
+  updateFormValues(user?: User) {
+    if (this.users.length == 0) return this.form.reset();
 
     this.form.reset()
     this.form.setValue({
-      name: this.selectedUser.name,
-      email: this.selectedUser.email,
-      telephone_number: this.selectedUser.telephone_number
+      name: user.name,
+      email: user.email,
+      telephone_number: user.telephone_number
     })
   }
 
   displayUserRecord(event: any): void {
     this.selectedUser = event.selected;
-    this.updateFormValues();
   }
 
   generateUserId(): number {
