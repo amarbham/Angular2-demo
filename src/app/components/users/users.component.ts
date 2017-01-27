@@ -42,12 +42,12 @@ export class UsersComponent implements OnInit {
   }
 
   addUser() {
-    const data: User = { 
-      id: this.generateUserId(), 
-      name: faker.name.findName(), 
+    const data: User = {
+      id: this.generateUserId(),
+      name: faker.name.findName(),
       email: faker.internet.email(),
       telephone_number: faker.phone.phoneNumber()
-     }
+    }
 
     this.dataService.post(this.usersUrl, data)
       .toPromise()
@@ -56,8 +56,8 @@ export class UsersComponent implements OnInit {
         return user;
       })
       .then(user => {
-      //  this.selectedUser = user;
-      //  return this.updateFormValues(this.selectedUser)
+        //  this.selectedUser = user;
+        //  return this.updateFormValues(this.selectedUser)
       })
       .catch(error => this.errorMessage = `${error}: Could not add the user. Please try again.`)
 
@@ -75,29 +75,36 @@ export class UsersComponent implements OnInit {
         )
       })
       .then(data => {
-      //  this.selectedUser = data[data.length - 1]
-       // return this.updateFormValues(this.selectedUser)
+        //  this.selectedUser = data[data.length - 1]
+        // return this.updateFormValues(this.selectedUser)
       })
       .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`)
   }
 
   updateUser(user: User) {
     const updatedUser: User = {
-      id: 3,
-      name: "updated name",
-      email: "updated email",
-      telephone_number: "07955635844"
+      id: this.selectedUser.id,
+      name: this.form.value.name,
+      email: this.form.value.email,
+      telephone_number: this.form.value.telephone_number
     }
 
     this.dataService.update(this.usersUrl + updatedUser.id, updatedUser)
       .toPromise()
-      .then((user) => {
-        return this.selectedUser = this.users.find((x: any) => x.id == updatedUser.id)
+      .then(() => {
+        return this.users = this.users.map((user: User) => {
+          if (user.id == updatedUser.id) {
+            user.name = updatedUser.name
+            user.email = updatedUser.email
+            user.telephone_number = updatedUser.telephone_number
+          }
+          return user;
+        })
       })
-      .then((user) => {
-        console.log(user)
+    //  .then((user) => {
+    //    console.log(user)
     //    return this.updateFormValues(user)
-      })
+    //   })
   }
 
   // updateFormValues(user?: User) {
@@ -112,6 +119,7 @@ export class UsersComponent implements OnInit {
   // }
 
   displayUserRecord(event: any): void {
+    console.log(event.selected)
     this.selectedUser = event.selected;
 
     if (this.users.length == 0) return this.form.reset();
