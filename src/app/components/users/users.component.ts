@@ -48,6 +48,11 @@ export class UsersComponent implements OnInit {
       email: faker.internet.email(),
       telephone_number: faker.phone.phoneNumber()
     }
+     // To replace with actual users input
+     /*  id: this.selectedUser.id,
+         name: this.form.value.name,
+         email: this.form.value.email,
+         telephone_number: this.form.value.telephone_number */
 
     this.dataService.post(this.usersUrl, data)
       .toPromise()
