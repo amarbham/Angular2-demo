@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange } from '@angular/core';
 
 
 @Component({
@@ -16,9 +16,9 @@ export class CounterComponent implements OnInit {
     counterValue = 0;
 
     
-  next(counterValue: number) {
+  next() {
 
-    if (counterValue >= this.counterData.length - 1) return 
+    if (this.counterValue >= this.counterData.length - 1) return 
 
     this.counterValue++
    
@@ -28,15 +28,10 @@ export class CounterComponent implements OnInit {
     })
   }
 
-  previous(counterValue: number) {
-    if (counterValue <= 0 ) return;
+  previous() {
+    if (this.counterValue <= 0 ) return;
 
     this.counterValue--
-
-    // if(counterValue <= 0){
-    //   this.currentSelected = this.counterData[this.counterData.length - 1]
-    //   return this.counterValue = this.counterData.length - 1
-    // }
     
     this.counterChange.emit({
       value: this.counterValue,
@@ -45,4 +40,8 @@ export class CounterComponent implements OnInit {
   }
 
     ngOnInit() { }
+
+    ngOnChanges(changes: {[propKey: string]: SimpleChange}){
+    //  console.log(changes)
+  }
 }

@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 import { User } from './users.interface';
 import { DataService } from '../../common/data.service';
+import { CounterComponent } from '../counter/counter.component';
 
 var faker = require('faker');
 
@@ -18,6 +19,9 @@ export class UsersComponent implements OnInit {
   usersUrl: string = 'http://localhost:3000/users/';
   selectedUser: User;
   form: FormGroup;
+
+  @ViewChild(CounterComponent)
+  private counterComponent: CounterComponent;
 
   @Output() addedUser = new EventEmitter();
 
@@ -35,50 +39,41 @@ export class UsersComponent implements OnInit {
     this.dataService.get(this.usersUrl)
       .toPromise()
       .then(data => this.users = data)
-      .then((users) => this.displayUserRecord(null, users[0]))
-      .catch((error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`))
+      .catch((error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`));
   }
 
-  addUser() {
+  addUser(user: User) {
     const data: User = {
       id: this.generateUserId(),
-      name: faker.name.findName(),
-      email: faker.internet.email(),
-      telephone_number: faker.phone.phoneNumber()
+      name: this.form.value.name,
+      email: this.form.value.email,
+      telephone_number: this.form.value.telephone_number
     }
-    // To replace with actual users input
-    /*  id: this.selectedUser.id,
-        name: this.form.value.name,
-        email: this.form.value.email,
-        telephone_number: this.form.value.telephone_number */
 
     this.dataService.post(this.usersUrl, data)
       .toPromise()
       .then(user => {
-        this.users.push(user)
-        return user;
+        this.getUsers()
+        this.selectedUser = user
       })
-      .then(user => {
-        //  this.selectedUser = user;
-        //  return this.updateFormValues(this.selectedUser)
-      })
-      .catch(error => this.errorMessage = `${error}: Could not add the user. Please try again.`)
-
+      .catch(error => this.errorMessage = `${error}: Could not add the user. Please try again.`);
   }
 
   deleteUser(user: User) {
-    if (this.users.length == 0) return 
-
+    if (this.users.length == 0) return
     const id = user.id;
 
     this.dataService.delete(this.usersUrl + id)
       .toPromise()
+      .then(() => this.getUsers())
       .then(() => {
-        return this.users = this.users.filter((user: any) => user.id !== id
-        )
+        for (let x in this.selectedUser) {
+          this.selectedUser[x] = null
+        }
+        this.form.reset()
+        this.counterComponent.previous()
       })
-      .then(data =>  this.displayUserRecord())
-      .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`)
+      .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`);
   }
 
   updateUser(user: User) {
@@ -94,35 +89,17 @@ export class UsersComponent implements OnInit {
       .then(() => {
         return this.users = this.users.map((user: User) => {
           if (user.id == updatedUser.id) {
-            user.name = updatedUser.name
-            user.email = updatedUser.email
-            user.telephone_number = updatedUser.telephone_number
+            user.name = updatedUser.name;
+            user.email = updatedUser.email;
+            user.telephone_number = updatedUser.telephone_number;
           }
           return user;
         })
       })
   }
 
-  displayUserRecord(event?: any, user?: User): void {
-    
-    if (event)  {  this.selectedUser = event.selected };
-    if (user)   {  this.selectedUser = user };
-
-    if (this.users.length == 0) {
-      this.form.reset()
-
-      for (let x in this.selectedUser){
-        this.selectedUser[x] = null
-      }
-     }
-
-    this.form.reset()
-    this.form.setValue({
-      name: this.selectedUser.name,
-      email: this.selectedUser.email,
-      telephone_number: this.selectedUser.telephone_number
-    })
-
+  displayUserRecord(event?: any): void {
+    this.selectedUser = this.users[event.value];
   }
 
   generateUserId(): number {
@@ -134,7 +111,14 @@ export class UsersComponent implements OnInit {
     return id;
   }
 
+  onSubmit(form: any) {
+    this.selectedUser = form.value;
+    this.counterComponent.counterData.push(this.selectedUser);
+    this.counterComponent.next();
+    this.form.reset();
+  }
+
   ngOnInit() {
-    this.getUsers()
+    this.getUsers();
   }
 }

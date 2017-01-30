@@ -4,18 +4,21 @@
 
 <h6>Current Selected User</h6>
 
-<form novalidate [formGroup]="form" autocompete="off">
+<form novalidate [formGroup]="form" autocompete="off" (ngSubmit)="onSubmit(form)">
   <label>Name: <input type="text" formControlName="name"></label>
   <label>Email: <input type="text" formControlName="email"></label>
   <label>Telephone number: <input type="text" formControlName="telephone_number"></label>
+  <button class="button-primary" (click)="addUser(selectedUser)">Add user</button>
 </form>
 
-{{selectedUser | json}}
+<p>Name: {{selectedUser?.name}}</p>
+<p>Email: {{selectedUser?.email}}</p>
+<p>Telephone number: {{selectedUser?.telephone_number}}</p>
 <br>
 <counter [counterData]="users"  [currentSelected]="selectedUser" (counterChange)="displayUserRecord($event)"></counter>
 
 <br>
-<button class="button-primary" (click)="addUser()">Add user</button>
+
 <button class="button" (click)="deleteUser(selectedUser)">Delete User</button>
 <button class="button" (click)="updateUser(selectedUser)">Update User</button>
 <p *ngIf="errorMessage" [innerHTML]="errorMessage"></p>
