@@ -2,9 +2,15 @@
   "users": [
     {
       "id": 1,
-      "name": "fdfdf",
-      "email": "dffd",
-      "telephone_number": "dfdfdf"
+      "name": "dd",
+      "email": "dd",
+      "telephone_number": "dd"
+    },
+    {
+      "id": 2,
+      "name": "dsdasd",
+      "email": "sds",
+      "telephone_number": "sadsd"
     }
   ]
 }
