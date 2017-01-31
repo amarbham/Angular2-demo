@@ -40,28 +40,11 @@ export class UsersComponent implements OnInit {
       .toPromise()
       .then(data => this.users = data)
       .then(() => {
-       if(this.users.length == 1) {
-         this.selectedUser = this.users[0];
-       }
+        if (this.users.length == 1) {
+          this.selectedUser = this.users[0];
+        }
       })
       .catch((error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`));
-  }
-
-  addUser(user: User) {
-    const data: User = {
-      id: this.generateUserId(),
-      name: this.form.value.name,
-      email: this.form.value.email,
-      telephone_number: this.form.value.telephone_number
-    }
-
-    this.dataService.post(this.usersUrl, data)
-      .toPromise()
-      .then(user => {
-        this.getUsers()
-        this.selectedUser = user
-      })
-      .catch(error => this.errorMessage = `${error}: Could not add the user. Please try again.`);
   }
 
   deleteUser(user: User) {
@@ -76,8 +59,8 @@ export class UsersComponent implements OnInit {
           this.selectedUser[x] = null
         }
         this.form.reset()
-        
-        if(this.users.length > 1) {
+
+        if (this.users.length > 1) {
           this.counterComponent.previous()
         }
       })
@@ -119,11 +102,20 @@ export class UsersComponent implements OnInit {
     return id;
   }
 
-  onSubmit(form: any) {
-    this.selectedUser = form.value;
-    this.counterComponent.counterData.push(this.selectedUser);
-    this.counterComponent.next();
-    this.form.reset();
+  onSubmit(form: any): void {
+    const data: User = 
+      Object.assign({ id: this.generateUserId() }, form.value)
+
+    this.dataService.post(this.usersUrl, data)
+      .toPromise()
+      .then(user => {
+        this.getUsers()
+        this.selectedUser = user
+        this.counterComponent.counterData.push(this.selectedUser);
+        this.counterComponent.next();
+        this.form.reset();
+      })
+      .catch(error => this.errorMessage = `${error}: Could not add the user. Please try again.`);
   }
 
   ngOnInit() {
