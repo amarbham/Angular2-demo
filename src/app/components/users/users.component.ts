@@ -39,6 +39,11 @@ export class UsersComponent implements OnInit {
     this.dataService.get(this.usersUrl)
       .toPromise()
       .then(data => this.users = data)
+      .then(() => {
+       if(this.users.length == 1) {
+         this.selectedUser = this.users[0];
+       }
+      })
       .catch((error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`));
   }
 
@@ -71,7 +76,10 @@ export class UsersComponent implements OnInit {
           this.selectedUser[x] = null
         }
         this.form.reset()
-        this.counterComponent.previous()
+        
+        if(this.users.length > 1) {
+          this.counterComponent.previous()
+        }
       })
       .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`);
   }
