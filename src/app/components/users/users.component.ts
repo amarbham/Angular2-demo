@@ -7,8 +7,6 @@ import { DataService } from '../../common/data.service';
 import { CounterComponent } from '../counter/counter.component';
 import { Route, ActivatedRoute } from '@angular/router';
 
-var faker = require('faker');
-
 @Component({
   selector: 'app-users',
   providers: [DataService],
