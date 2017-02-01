@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { User } from './users.interface';
 import { DataService } from '../../common/data.service';
 import { CounterComponent } from '../counter/counter.component';
+import { Route, ActivatedRoute } from '@angular/router';
 
 var faker = require('faker');
 
@@ -25,7 +26,16 @@ export class UsersComponent implements OnInit {
 
   @Output() addedUser = new EventEmitter();
 
-  constructor(private dataService: DataService) {
+  constructor(
+    private dataService: DataService,
+    private route: ActivatedRoute
+    ) {
+
+      this.route.data.subscribe(data => {
+          console.log(data['usersData']);
+        })
+
+
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required]),

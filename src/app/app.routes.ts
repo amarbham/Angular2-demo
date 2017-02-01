@@ -1,5 +1,6 @@
 import { Routes  } from '@angular/router';
 import { UsersComponent } from './components/users/users.component';
+import { UsersResolver } from './components/users/users.resolver';
 
 export const AppRoutes: Routes  = [
   {
@@ -9,6 +10,9 @@ export const AppRoutes: Routes  = [
   },
   {
     path: 'users',
-    component: UsersComponent
+    component: UsersComponent,
+    resolve: {
+      usersData: UsersResolver
+    }
   },
 ];
