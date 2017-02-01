@@ -48,12 +48,6 @@ export class UsersComponent implements OnInit {
     this.dataService.get(this.usersUrl)
       .toPromise()
       .then(data => this.users = data)
-      .then(() => {
-        
-        // if (this.users.length == 1) {
-        //   this.selectedUser = this.users[0];
-        // }
-      })
       .catch((error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`));
   }
 
@@ -96,7 +90,7 @@ export class UsersComponent implements OnInit {
       .catch(error => this.errorMessage = `${error}: Could not add the user. Please try again.`);
   }
 
-  private displayUserRecord(event?: any): void {
+  displayUserRecord(event?: any): void {
     this.selectedUser = this.users[event.value];
   }
 
