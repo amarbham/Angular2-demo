@@ -8,7 +8,7 @@ import { CounterComponent } from '../counter/counter.component';
 var faker = require('faker');
 
 @Component({
-  selector: 'users',
+  selector: 'app-users',
   providers: [DataService],
   template: require('./users.template.html')
 })
