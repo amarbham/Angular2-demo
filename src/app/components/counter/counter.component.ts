@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 
 @Component({
@@ -7,7 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
   template: require('./counter.template.html')
 })
 
-export class CounterComponent implements OnInit {
+export class CounterComponent {
     constructor() { }
 
     @Input() currentSelected: any;
@@ -15,9 +15,7 @@ export class CounterComponent implements OnInit {
     @Output() counterChange = new EventEmitter();
     counterValue = 0;
 
-    
   next() {
-
     if (this.counterValue >= this.counterData.length - 1) return 
 
     this.counterValue++
@@ -37,11 +35,5 @@ export class CounterComponent implements OnInit {
       value: this.counterValue,
       selected: this.currentSelected = this.counterData[this.counterValue]
     })
-  }
-
-    ngOnInit() { }
-
-    ngOnChanges(changes: {[propKey: string]: SimpleChange}){
-    //  console.log(changes)
   }
 }

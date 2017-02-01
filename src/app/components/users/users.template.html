@@ -1,9 +1,6 @@
 
 <p *ngIf="users?.length === 0"> No users to display</p>
 
-
-<h6>Current Selected User</h6>
-
 <form novalidate [formGroup]="form" autocompete="off" (ngSubmit)="onSubmit(form)">
   <label>Name: <input type="text" formControlName="name"></label>
   <label>Email: <input type="text" formControlName="email"></label>
@@ -11,18 +8,20 @@
   <button type="submit" class="button-primary">Add user</button>
 </form>
 
+<h6>Current Selected User</h6>
 <p>Name: {{selectedUser?.name}}</p>
 <p>Email: {{selectedUser?.email}}</p>
 <p>Telephone number: {{selectedUser?.telephone_number}}</p>
-<br>
-<counter [counterData]="users"  [currentSelected]="selectedUser" (counterChange)="displayUserRecord($event)"></counter>
 
+<br>
+  <counter [counterData]="users"  [currentSelected]="selectedUser" (counterChange)="displayUserRecord($event)"></counter>
 <br>
 
 <button class="button" (click)="deleteUser(selectedUser)">Delete User</button>
 <button class="button" (click)="updateUser(form)">Update User</button>
 <p *ngIf="errorMessage" [innerHTML]="errorMessage"></p>
 
+<h6>All Users</h6>
 <pre style="background-color: #eee">
 {{users | json}}
 </pre>
@@ -30,4 +29,3 @@
 <pre style="background-color: #eee">
 {{form?.value | json}}
 </pre>
-
