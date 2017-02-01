@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
+
 import { User } from './users.interface';
 import { DataService } from '../../common/data.service';
 import { CounterComponent } from '../counter/counter.component';
@@ -24,17 +25,13 @@ export class UsersComponent implements OnInit {
   @ViewChild(CounterComponent)
   private counterComponent: CounterComponent;
 
-  @Output() addedUser = new EventEmitter();
-
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute
-    ) {
-
-      this.route.data.subscribe(data => {
-          console.log(data['usersData']);
-        })
-
+  ) {
+    this.route.data.subscribe(data => {
+      this.users = data['usersData'];
+    })
 
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required]),
@@ -43,16 +40,19 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  // To do: It should trigger previous or next depending on whether a record has been added or deleted.
+  ngOnInit() {
+    this.selectedUser = this.users[0] || {}
+  }
 
-  getUsers(user?: any) {
+  getUsers() {
     this.dataService.get(this.usersUrl)
       .toPromise()
       .then(data => this.users = data)
       .then(() => {
-        if (this.users.length == 1) {
-          this.selectedUser = this.users[0];
-        }
+        
+        // if (this.users.length == 1) {
+        //   this.selectedUser = this.users[0];
+        // }
       })
       .catch((error => this.errorMessage = `${error}: Could not get users. Try refreshing the page.`));
   }
@@ -64,24 +64,12 @@ export class UsersComponent implements OnInit {
     this.dataService.delete(this.usersUrl + id)
       .toPromise()
       .then(() => this.getUsers())
-      .then(() => {
-
-        for (let x in this.selectedUser) {
-          if (this.selectedUser.hasOwnProperty(x)) 
-            this.selectedUser[x] = null
-        }
-
-        this.form.reset()
-
-        if (this.users.length > 1) {
-          this.counterComponent.previous()
-        }
-      })
+      .then(() => this.resetSelectedUser())
+      .then(() => this.goToPreviousUser())
       .catch(error => this.errorMessage = `${error}: Could not delete user. Please try again.`);
   }
 
   updateUser(form: FormGroup) {
-
     const updatedUser =
       Object.assign({ id: this.selectedUser.id }, form.value)
 
@@ -90,19 +78,6 @@ export class UsersComponent implements OnInit {
       .then(() => this.getUsers())
       .then(() => this.selectedUser = updatedUser)
       .then(() => this.form.reset());
-  }
-
-  displayUserRecord(event?: any): void {
-    this.selectedUser = this.users[event.value];
-  }
-
-  generateUserId(): number {
-    let id: number = 1
-
-    if (this.users.length !== 0) {
-      id = this.users[this.users.length - 1].id + 1;
-    }
-    return id
   }
 
   onSubmit(form: any): void {
@@ -121,7 +96,30 @@ export class UsersComponent implements OnInit {
       .catch(error => this.errorMessage = `${error}: Could not add the user. Please try again.`);
   }
 
-  ngOnInit() {
-    this.getUsers();
+  private displayUserRecord(event?: any): void {
+    this.selectedUser = this.users[event.value];
+  }
+
+  private generateUserId(): number {
+    let id: number = 1
+
+    if (this.users.length !== 0) {
+      id = this.users[this.users.length - 1].id + 1;
+    }
+    return id
+  }
+
+  private goToPreviousUser() {
+    if (this.users.length > 1) {
+      this.counterComponent.previous()
+    }
+  }
+
+  private resetSelectedUser() {
+    for (let x in this.selectedUser) {
+      if (this.selectedUser.hasOwnProperty(x))
+        this.selectedUser[x] = null
+    }
+    this.form.reset()
   }
 }

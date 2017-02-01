@@ -3,13 +3,14 @@ import { UsersComponent } from './components/users/users.component';
 import { UsersResolver } from './components/users/users.resolver';
 
 export const AppRoutes: Routes  = [
+  // {
+  //   path: '',
+  //   redirectTo: 'users',
+  //   pathMatch: 'full'
+  // },
+  
   {
     path: '',
-    redirectTo: 'users',
-    pathMatch: 'full'
-  },
-  {
-    path: 'users',
     component: UsersComponent,
     resolve: {
       usersData: UsersResolver
