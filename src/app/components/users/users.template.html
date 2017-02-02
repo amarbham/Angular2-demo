@@ -8,24 +8,29 @@
   <button type="submit" class="button-primary">Add user</button>
 </form>
 
-<h6>Current Selected User</h6>
-<p>Name: {{selectedUser?.name}}</p>
-<p>Email: {{selectedUser?.email}}</p>
-<p>Telephone number: {{selectedUser?.telephone_number}}</p>
+
+<button class="button" (click)="deleteUser(selectedUser)">Delete User</button>
+<button class="button" (click)="updateUser(form)">Update User</button>
+<p *ngIf="errorMessage" [innerHTML]="errorMessage"></p>
 
 <br>
   <counter [counterData]="users"  [currentSelected]="selectedUser" (counterChange)="displayUserRecord($event)"></counter>
 <br>
 
-<button class="button" (click)="deleteUser(selectedUser)">Delete User</button>
-<button class="button" (click)="updateUser(form)">Update User</button>
-<p *ngIf="errorMessage" [innerHTML]="errorMessage"></p>
+<h6>Current Selected User</h6>
+<pre style="background-color: #eee">
+  Name: {{selectedUser?.name}}
+  Email: {{selectedUser?.email}}
+  Telephone number: {{selectedUser?.telephone_number}}
+</pre>
+
 
 <h6>All Users</h6>
 <pre style="background-color: #eee">
 {{users | json}}
 </pre>
 
+<h6>Form value</h6>
 <pre style="background-color: #eee">
 {{form?.value | json}}
 </pre>
